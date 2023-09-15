@@ -86,12 +86,6 @@ func NewWithConfig(logger *slog.Logger, config Config) fiber.Handler {
 			logErr = fiber.NewError(c.Response().StatusCode())
 		}
 
-		for _, filter := range config.Filters {
-			if !filter(c) {
-				return err
-			}
-		}
-
 		switch {
 		case c.Response().StatusCode() >= http.StatusBadRequest && c.Response().StatusCode() < http.StatusInternalServerError:
 			logger.LogAttrs(context.Background(), config.ClientErrorLevel, logErr.Error(), attributes...)
